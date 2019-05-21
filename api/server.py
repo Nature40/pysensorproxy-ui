@@ -14,7 +14,7 @@ async def server(websocket, path):
         lines = []
         opticals = []
 
-        with open('/home/djangoo/pysensorproxy/sensorproxy/sensors/optical.py', 'r') as f:
+        with open('/pysensorproxy/sensorproxy/sensors/optical.py', 'r') as f:
             for line in f:
                 lines.append(line)
 
