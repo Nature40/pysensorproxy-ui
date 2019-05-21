@@ -46,16 +46,23 @@ const SensorScript = {
 var state = {
 	sensor_script: '',
 	selected: {
-		camera: { value: '' }
+		wifi: true,
+		camera: ''
 	},
 	items: ['Camera 1','Camera 2','Camera 3','Camera 4']
 };
+
+const socket = new WebSocket('ws://127.0.0.1:6550/opticals'); 
 
 const app = new Vue({
 	router,
 	el: '#app',
 	data: state,
 	mounted: function() {
+		socket.addEventListener('message', (event) => {
+			state.items = JSON.parse(event.data).opticals;
+		}); 
+
 		this.generateScript();
 	},
 	methods: {
@@ -63,16 +70,19 @@ const app = new Vue({
 			// console.log(
 			// 	'generateScript',this.selected.camera.value);
 			let gs = ''+
-			SensorScript.section.cam(this.selected.camera.value)+
+			SensorScript.section.cam(this.selected.camera)+
 			SensorScript.section.log()+
-			SensorScript.section.wifi()+
+			(this.selected.wifi ? SensorScript.section.wifi() : '')+
 			SensorScript.section.lift();
 
 			this.sensor_script = gs; 
+			console.log(gs);
 		}
 	}
 })
 
+
 $(document).ready(() => {
+
 	$('#app .camera-selector').dropdown();
 })

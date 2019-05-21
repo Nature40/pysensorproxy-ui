@@ -7,16 +7,7 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/themes/prism.min.css">
-	<style>
-		pre[class*=language-] {
-			padding: 0 0.75em !important;
-			margin: 0 !important;
-		}
-		.column	{
-			padding-left: 0.5rem !important;
-			padding-right: 0.5rem !important;
-		}
-	</style>
+	<link rel="stylesheet" href="/app.css">
 </head>
 <body>
 	<script src="https://npmcdn.com/vue/dist/vue.js"></script>
@@ -35,13 +26,19 @@
 				<div class="eight wide column">
 					<div class="ui segment">
 						<field label="Camera Selection">
-							<picklist :items="items" :selected-item="selected.camera" @change="generateScript"/>
+							<picklist :items="items" :selected-item.sync="selected.camera" @change="generateScript"/>
 						</field>				
 					</div>
 					<div class="ui segment">
 						<div class="segment-header">
-							
+							<div class="title">
+								<h4>Wi-Fi Enabler</h4>
+							</div>
+							<div class="activator">
+								<toggler :checked.sync="selected.wifi" @change="generateScript"/>
+							</div>
 						</div>
+						<!-- <div class="segment-body"></div> -->
 					</div>
 				</div>
 				<div class="eight wide column">
@@ -51,7 +48,7 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="components.js"></script>
-	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="/components.js"></script>
+	<script type="text/javascript" src="/app.js"></script>
 </body>
 </html>

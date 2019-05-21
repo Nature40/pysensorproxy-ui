@@ -2,8 +2,12 @@ Vue.component('picklist', {
 	props: ['items', 'selected-item'],
 	methods: {
 		selectItem: function(event) {
-			this.selectedItem.value = $(event.target).data('value');
+			let value = $(event.target).data('value');
+			// this.selectedItem = value;
+			this.$emit('update:selected-item', value);
 			this.$emit('change');
+
+			console.log(value);
 		}
 	},
 	template: `
@@ -21,10 +25,20 @@ Vue.component('picklist', {
 })
 
 Vue.component('toggler', {
-	props: ['label'],
+	props: ['label', 'checked'],
+	methods: {
+		toggle: function(event) {
+			// console.log(event.target.checked);
+			this.$emit('update:checked', event.target.checked);
+			this.$emit('change');
+		}
+	},
+	mounted: function() {
+		$(this.$refs.toggler).prop('checked', this.checked);
+	},
 	template: `
 	<div class="ui toggle checkbox">
-		<input type="checkbox" name="public">
+		<input type="checkbox" name="public" @change="toggle" ref="toggler">
 		<label>{{ label }}</label>
 	</div>
 	`
