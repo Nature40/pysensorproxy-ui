@@ -6,7 +6,7 @@ import asyncio
 import websockets
 
 async def hello():
-    async with websockets.connect('ws://localhost:8765/systemd/stop') as websocket:
+    async with websockets.connect('ws://127.0.0.1:6550/systemd/stop') as websocket:
         # name = input("What's your name? ")
         # await websocket.send('HI SERVER!')
         # print(f"C> {name}")
