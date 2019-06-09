@@ -26,11 +26,13 @@ async def server(websocket, path):
         sensors = dict(opticals=opticals)
         await websocket.send(json.dumps(sensors))
     if path == '/systemd/start':
+        os.system('sudo systemctl start sensorproxy')
         await websocket.send('Systemd started!')
     if path == '/systemd/stop':
+        os.system('sudo systemctl stop sensorproxy')
         await websocket.send('Systemd stopped!')
     if path == '/journalctl':
-        logs = os.popen('journalctl').read()
+        logs = os.popen('journalctl -u sensorproxy').read()
         await websocket.send(logs)
         # await websocket.send('Systemd stopped!')
         # name = await websocket.recv()
