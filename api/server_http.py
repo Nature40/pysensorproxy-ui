@@ -2,7 +2,7 @@ from waitress import serve
 from pyramid.config import Configurator 
 from pyramid.response import Response, FileResponse
 
-import os
+import os, re, json
 
 def sensorproxy_start(request):
     #os.system('sudo systemctl start sensorproxy')
@@ -26,7 +26,7 @@ def opticals(request):
             result = re.search('class (.*)\(', optical)
             opticals.append(result.group(1))
     sensors = dict(opticals=opticals)
-    return Response(json.dumps(sensors), content_type='application/json')
+    return Response(json.dumps(sensors))
 
 
 if __name__ == '__main__':
