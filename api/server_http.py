@@ -26,17 +26,26 @@ def opticals(request):
             result = re.search('class (.*)\(', optical)
             opticals.append(result.group(1))
     sensors = dict(opticals=opticals)
-    return Response(json.dumps(sensors))
+    return Response(json.dumps(sensors), charset='utf-8', content_type="application/json", headerlist=[
+            ('Access-Control-Allow-Origin', '*'),
+        ])
 
+def sensorproxy_yml(request): 
+    res = os.popen('cat /boot/sensorproxy.yml').read()
+    return Response(res, charset='utf-8', headerlist=[
+            ('Access-Control-Allow-Origin', '*'),
+        ])
 
 if __name__ == '__main__':
     with Configurator() as config:
         config.add_route('sensorproxy_start', '/systemctl/start')
         config.add_route('sensorproxy_stop', '/systemctl/stop')
         config.add_route('opticals', '/opticals')
+        config.add_route('sensorproxy_yml', '/sensorproxy_yml')
         config.add_view(sensorproxy_start, route_name="sensorproxy_start")
         config.add_view(sensorproxy_stop, route_name="sensorproxy_stop")
         config.add_view(opticals, route_name="opticals")
+        config.add_view(sensorproxy_yml, route_name="sensorproxy_yml")
         app = config.make_wsgi_app()
     serve(app, host='0.0.0.0', port=6500)
 

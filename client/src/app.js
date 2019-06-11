@@ -52,17 +52,21 @@ var state = {
 	items: ['Camera 1','Camera 2','Camera 3','Camera 4']
 };
 
-const socket = new WebSocket('ws://127.0.0.1:6550/opticals'); 
+// const socket = new WebSocket('ws://127.0.0.1:6550/opticals'); 
 
 const app = new Vue({
 	router,
 	el: '#app',
 	data: state,
-	mounted: function() {
-		socket.addEventListener('message', (event) => {
-			state.items = JSON.parse(event.data).opticals;
-		}); 
-
+	mounted: async function() {
+		// socket.addEventListener('message', (event) => {
+		// 	state.items = JSON.parse(event.data).opticals;
+		// }); 
+		let res = await axios.get('http://127.0.0.1:6500/opticals');
+		console.log(res);
+		state.items = res.data.opticals;
+		res = await axios.get('http://127.0.0.1:6500/sensorproxy_yml');
+		state.sensor_script = '\n'+res.data;
 		this.generateScript();
 	},
 	methods: {
@@ -75,8 +79,8 @@ const app = new Vue({
 			(this.selected.wifi ? SensorScript.section.wifi() : '')+
 			SensorScript.section.lift();
 
-			this.sensor_script = gs; 
-			console.log(gs);
+			// this.sensor_script = gs; 
+			// console.log(gs);
 		}
 	}
 })
