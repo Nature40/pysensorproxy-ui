@@ -9,7 +9,7 @@ import websockets
 
 async def server(websocket, path):
     print(path)
-
+"""
     if path == '/opticals':
         lines = []
         opticals = []
@@ -31,6 +31,7 @@ async def server(websocket, path):
     if path == '/systemd/stop':
         os.system('sudo systemctl stop sensorproxy')
         await websocket.send('Systemd stopped!')
+"""
     if path == '/journalctl':
         logs = os.popen('journalctl -u sensorproxy').read()
         await websocket.send(logs)
