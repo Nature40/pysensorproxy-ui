@@ -44,4 +44,4 @@ if __name__ == '__main__':
         config.add_view(app_css, route_name='app_css')
         config.add_view(index, route_name='index')
         app = config.make_wsgi_app()
-    serve(app, host='0.0.0.0', port=80)
+    serve(app, host='0.0.0.0', port=800)
