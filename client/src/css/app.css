@@ -2,10 +2,22 @@ pre[class*=language-] {
     padding: 0 0.75em !important;
     margin: 0 !important;
 }
+
+pre[class*=plain-text] {
+    background: #f5f2f0;
+    padding: 1em; 
+    font-size: 0.9em;
+}
+
+.ui.grid {
+    margin: 0 !important;
+}
+
 .ui.grid .column	{
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
 }
+
 .ui.toggle.checkbox label {
     padding-left: 3.5rem;
 }
@@ -13,6 +25,7 @@ pre[class*=language-] {
 .segment-header {
     display: flex;
 }
+
 .segment-header .title {
     flex: 1;
     display: flex;

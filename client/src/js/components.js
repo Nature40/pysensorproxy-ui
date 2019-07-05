@@ -1,5 +1,5 @@
 Vue.component('picklist', {
-	props: ['items', 'selected-item'],
+	props: ['items', 'selected-item', 'placeholder'],
 	methods: {
 		selectItem: function(event) {
 			let value = $(event.target).data('value');
@@ -14,7 +14,7 @@ Vue.component('picklist', {
 	<div class="ui fluid selection dropdown camera-selector">
 		<input type="hidden" name="user">
 		<i class="dropdown icon"></i>
-		<div class="default text">Select Camera</div>
+		<div class="default text">{{ placeholder }}</div>
 		<div class="menu">
 			<div class="item" v-for="item in items" @click="selectItem" :data-value="item">
 				{{ item }}

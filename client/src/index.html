@@ -5,29 +5,66 @@
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/themes/prism.min.css">
-	<link rel="stylesheet" href="/app.css">
+	<link rel="stylesheet" href="/css/semantic.min.css">
+	<link rel="stylesheet" href="/css/prism.min.css">
+	<link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
-	<script src="https://npmcdn.com/vue/dist/vue.js"></script>
-	<script src="https://npmcdn.com/vue-router/dist/vue-router.js"></script>
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/prism.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/components/prism-yaml.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/vue-router.js"></script>
+	<script src="/js/jquery-3.4.1.min.js"></script>
+	<script src="/js/semantic.min.js"></script>
+	<script src="/js/prism.min.js"></script>
+	<script src="/js/prism-yaml.min.js"></script>
+	<script src="/js/axios.min.js"></script>
 	
 	<div id="app">
-		<!-- <router-link to="/">/home</router-link>
-		<router-link to="/foo">/foo</router-link>
-		<router-view></router-view> -->
+		<div class="ui secondary pointing menu">
+			<router-link to="/">
+			<a :class="state == 'mod' ? 'item active' : 'item'" @click="changeState('mod')">
+					Yaml Modifier
+			</a>
+			</router-link>
+			<router-link to="/logs">
+			<a :class="state == 'logs' ? 'item active' : 'item'" @click="changeState('logs')">
+					Sensorproxy Logs
+			</a>
+			</router-link>
+		<!--<div class="right menu">
+			<a class="ui item">
+			Logout
+			</a>
+			</div>-->
+		</div>
+		<router-view></router-view>
+	</div>
+
+	<script type="text/x-template" id="journalctl-logs-template">
+		<div class="ui grid">
+			<div class="sixteen wide column">
+				<pre class="plain-text">
+					<code class="">
+						{{ logs }}
+					</code>
+				</pre>
+			</div>
+		</div>
+	</script>
+	
+	<script type="text/x-template" id="yml-modifier-template">
 		<div class="ui grid">
 			<div class="row column two">
 				<div class="eight wide column">
+					<div>
+						<div></div>
+						<div>
+							<button class="ui primary button" @click="save">Save</button>
+							<button class="ui primary button">Save + Apply</button>
+						</div>
+					</div>
 					<div class="ui segment">
 						<field label="Camera Selection">
-							<picklist :items="items" :selected-item.sync="selected.camera" @change="generateScript"/>
+							<picklist :items="items" :selected-item.sync="selected.camera" @change="generateScript" placeholder="Select Camera"/>
 						</field>				
 					</div>
 					<div class="ui segment">
@@ -47,9 +84,9 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</script>
 
-	<script type="text/javascript" src="/components.js"></script>
-	<script type="text/javascript" src="/app.js"></script>
+	<script type="text/javascript" src="/js/components.js"></script>
+	<script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>
