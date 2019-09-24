@@ -1,21 +1,33 @@
-#!/usr/bin/env python
+import tornado.ioloop
+import tornado.web
+import tornado.websocket
 
-import os, re, json, subprocess, select
-import asyncio
-import websockets
+import datetime
 
 
-async def server(websocket, path):
-    if path == '/journalctl':
-        print('[INFO] request has reached the path')
-        logs = subprocess.Popen(['sudo','journalctl','-fu','sensorproxy'], stdout=subprocess.PIPE)
-        p = select.poll()
-        p.register(logs.stdout)
-        if p.poll(100):
-            for line in iter(logs.stdout.readline,''):
-                await websocket.send(line.strip().decode('utf-8'))
+class SimpleWebSocket(tornado.websocket.WebSocketHandler):
+  connections = set()
 
-start_server = websockets.serve(server, '192.168.4.1', 6550)
-print('[INFO] Server is Running')
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+  def check_origin(self, origin):
+    return True
+
+  def open(self):
+    now = datetime.datetime.now()
+    self.write_message(now.strftime('\n-- Logs begin at %a %Y-%m-%d %H:%M:%S CET. --\n'))
+    self.connections.add(self)
+
+  def on_message(self, message):
+    [client.write_message(message) for client in self.connections]
+
+  def on_close(self):
+    self.connections.remove(self)
+ 
+def make_app():
+  return tornado.web.Application([
+    (r"/journalctl", SimpleWebSocket)
+  ])
+ 
+if __name__ == "__main__":
+  app = make_app()
+  app.listen(6550, '192.168.4.1')
+  tornado.ioloop.IOLoop.current().start()

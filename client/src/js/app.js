@@ -9,6 +9,16 @@ const YamlModifier = {
 			windowHeight: 0,
 		}
 	},
+	created: function() {
+		vm = this;
+		
+		vm.windowHeight = window.innerHeight-40; 
+		// console.log(this.windowHeight);
+		window.addEventListener('resize', (evt) => {
+			vm.windowHeight = evt.target.innerHeight-40;
+			// console.log(evt.target);
+		})
+	},
 	mounted: async function() {
 		this.editor = ace.edit("editor");
 		this.editor.setTheme("ace/theme/eclipse");
@@ -36,13 +46,6 @@ const YamlModifier = {
 
 		this.editor.session.setValue(this.sensorproxy_yml);
 
-		vm = this;
-
-		vm.windowHeight = window.innerHeight-40; 
-		window.addEventListener('resize', (evt) => {
-			vm.windowHeight = evt.target.innerHeight-40;
-			console.log(evt.target);
-		})
 	},
 	methods: {
 		save: async function() {
