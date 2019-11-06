@@ -24,20 +24,17 @@ const YamlModifier = {
 		this.editor.setTheme("ace/theme/eclipse");
 		this.editor.session.setMode("ace/mode/yaml");
 
-		let ysp = await fetch('http://192.168.4.1:6500/yml/sensorproxy', {
+		let ysp = await fetch('http://192.168.4.1:6550/yml/sensorproxy', {
 			method: 'get',
 			credentials: 'same-origin',
 			mode: 'cors'
 		}) 
 
-		let sns = await fetch('http://192.168.4.1:6500/sensors', {
+		let sns = await fetch('http://192.168.4.1:6550/sensors', {
 			method: 'get',
 			credentials: 'same-origin',
 			mode: 'cors'
-		}) 
-
-		// let ysp = await axios.get('http://192.168.4.1:6500/yml/sensorproxy');
-		// let sns = await axios.get('http://192.168.4.1:6500/sensors');
+		})
 		
 		this.sensorproxy_yml = (await ysp.json()).body.replace(/\\n/g, '\n');
 		this.sensors = (await sns.json()).sensors;
@@ -49,7 +46,7 @@ const YamlModifier = {
 	},
 	methods: {
 		save: async function() {
-			let yml = await fetch('http://192.168.4.1:6500/yml/sensorproxy', {
+			let yml = await fetch('http://192.168.4.1:6550/yml/sensorproxy', {
 				method: 'post',
 				credentials: 'same-origin',
 				mode: 'cors',
@@ -68,7 +65,7 @@ const YamlModifier = {
 			}, 3000)
 		},
 		saveApply: async function() {
-			let yml = await fetch('http://192.168.4.1:6500/yml/sensorproxy', {
+			let yml = await fetch('http://192.168.4.1:6550/yml/sensorproxy', {
 				method: 'post',
 				credentials: 'same-origin',
 				mode: 'cors',
@@ -82,7 +79,7 @@ const YamlModifier = {
 
 
 
-			let swtch = await fetch('http://192.168.4.1:6500/systemctl/switch', {
+			let swtch = await fetch('http://192.168.4.1:6550/systemctl/switch', {
 				method: 'post',
 				credentials: 'same-origin',
 				mode: 'cors',
@@ -140,7 +137,7 @@ const SensorLogs = {
 	},
 	methods: {
 		sensorState: async function(state) {
-			let res = await fetch('http://192.168.4.1:6500/systemctl/switch', {
+			let res = await fetch('http://192.168.4.1:6550/systemctl/switch', {
 				method: 'post',
 				credentials: 'same-origin',
 				mode: 'cors',
